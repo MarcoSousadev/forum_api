@@ -1,12 +1,11 @@
-import { QuestionRepository } from 'src/domain/repositories/questions-repository'
+import { QuestionRepository } from 'src/domain/forum/application/repositories/questions-repository'
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id'
 import { Answer } from '../../entrerprise/entities/answer'
 import { Question } from '../../entrerprise/entities/question'
 import { Slug } from '../../entrerprise/entities/value-objects/slug'
 
-
 interface GetQuestionBySlugUseCaseRequest {
- slug: string
+  slug: string
 }
 
 interface GetQuestionBySlugCaseResponse {
@@ -18,18 +17,15 @@ export class GetQuestionBySlugUseCase {
 
   async execute({
     slug
- 
   }: GetQuestionBySlugUseCaseRequest): Promise<GetQuestionBySlugCaseResponse> {
-      const question = await this.questionRepository.findBySlug(slug)
+    const question = await this.questionRepository.findBySlug(slug)
 
-      
-      if(!question){
-        throw new Error('Question not found.')
-      }
+    if (!question) {
+      throw new Error('Question not found.')
+    }
 
-      return {
-        question
-      }
-
+    return {
+      question
+    }
   }
 }

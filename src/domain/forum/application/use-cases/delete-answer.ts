@@ -1,6 +1,4 @@
-import { AnswerRepository } from 'src/domain/repositories/answer-repository'
-
-
+import { AnswerRepository } from 'src/domain/forum/application/repositories/answer-repository'
 
 interface DeleteAnswerUseCaseRequest {
   authorId: string
@@ -15,21 +13,18 @@ export class DeleteAnswerUseCase {
   async execute({
     answerId,
     authorId
- 
   }: DeleteAnswerUseCaseRequest): Promise<DeleteAnswerUseCaseResponse> {
+    const answer = await this.answerRepository.findById(answerId)
 
-      const answer = await this.answerRepository.findById(answerId)
+    if (!answer) {
+      throw new Error('answer not found')
+    }
+    if (authorId != answer.authorId.toString()) {
+      throw new Error('not allowed')
+    }
 
-      if(!answer){
-        throw new Error('answer not found')
-      }
-      if(authorId != answer.authorId.toString() ) {
-        throw new Error('not allowed')
-      }
-     
-      await this.answerRepository.delete(answer)
+    await this.answerRepository.delete(answer)
 
-      return {}
-
+    return {}
   }
 }

@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '../../../../core/entities/unique-entity-id'
 import { Answer } from '../../entrerprise/entities/answer'
-import { AnswerRepository } from '../../../repositories/answer-repository'
-import { QuestionRepository } from 'src/domain/repositories/questions-repository'
+import { AnswerRepository } from '../repositories/answer-repository'
+import { QuestionRepository } from 'src/domain/forum/application/repositories/questions-repository'
 import { Question } from '../../entrerprise/entities/question'
 
 interface ChooseBestAswerUseCaseRequest {

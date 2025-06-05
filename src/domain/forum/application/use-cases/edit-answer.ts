@@ -1,7 +1,5 @@
-import { AnswerRepository } from 'src/domain/repositories/answer-repository'
+import { AnswerRepository } from 'src/domain/forum/application/repositories/answer-repository'
 import { Answer } from '../../entrerprise/entities/answer'
-
-
 
 interface EditAnswerUseCaseRequest {
   authorId: string
@@ -19,26 +17,23 @@ export class EditAnswerUseCase {
   async execute({
     authorId,
     answerId,
-    content,
-    
+    content
   }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
+    const answer = await this.answerRepository.findById(answerId)
 
-      const answer = await this.answerRepository.findById(answerId)
+    if (!answer) {
+      throw new Error('answer not found')
+    }
+    if (authorId != answer.authorId.toString()) {
+      throw new Error('not allowed')
+    }
 
-      if(!answer){
-        throw new Error('answer not found')
-      }
-      if(authorId != answer.authorId.toString() ) {
-        throw new Error('not allowed')
-      }
+    answer.content = content
 
-      answer.content = content
-     
-      await this.answerRepository.save(answer)
+    await this.answerRepository.save(answer)
 
-      return {
-        answer
-      }
-
+    return {
+      answer
+    }
   }
 }
