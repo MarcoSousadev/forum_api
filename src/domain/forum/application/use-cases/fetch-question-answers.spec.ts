@@ -1,5 +1,3 @@
-
-
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answer-repository'
 import { FetchQuestionsAnswersUseCase } from './fetch-question-answers'
 import { makeAnswer } from 'test/factories/make-answer'
