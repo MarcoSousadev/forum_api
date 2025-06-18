@@ -2,16 +2,19 @@ import { AnswerRepository } from 'src/domain/forum/application/repositories/answ
 import { Answer } from '../../entrerprise/entities/answer'
 import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
 import { AnswerComment } from '../../entrerprise/entities/answer-comment'
-
+import { Either, right } from 'src/core/either'
 
 interface FetchAnswerCommentUseCaseRequest {
- page: number
- answerId: string
+  page: number
+  answerId: string
 }
 
-interface FetchAnswerCommentCaseResponse {
-  answerComments: AnswerComment[]
-}
+type FetchAnswerCommentCaseResponse = Either<
+  null,
+  {
+    answerComments: AnswerComment[]
+  }
+>
 
 export class FetchAnswerCommentUseCase {
   constructor(private answerCommentsRepository: AnswerCommentsRepository) {}
@@ -29,9 +32,9 @@ export class FetchAnswerCommentUseCase {
 
       
 
-      return {
+      return right({
         answerComments
-      }
+      })
 
   }
 }

@@ -2,16 +2,19 @@ import { QuestionRepository } from 'src/domain/forum/application/repositories/qu
 import { Question } from '../../entrerprise/entities/question'
 import { AnswerRepository } from 'src/domain/forum/application/repositories/answer-repository'
 import { Answer } from '../../entrerprise/entities/answer'
-
+import { Either, right } from 'src/core/either'
 
 interface FetchQuestionsAnswersUseCaseRequest {
- page: number
- questionId: string
+  page: number
+  questionId: string
 }
 
-interface FetchQuestionsAnswersCaseResponse {
-  answers: Answer[]
-}
+type FetchQuestionsAnswersCaseResponse = Either<
+  null,
+  {
+    answers: Answer[]
+  }
+>
 
 export class FetchQuestionsAnswersUseCase {
   constructor(private answerRepository: AnswerRepository) {}
@@ -19,16 +22,14 @@ export class FetchQuestionsAnswersUseCase {
   async execute({
     page,
     questionId
- 
   }: FetchQuestionsAnswersUseCaseRequest): Promise<FetchQuestionsAnswersCaseResponse> {
-      const answers = await this.answerRepository.findManyByQuestionId(questionId ,
-         { page })
+    const answers = await this.answerRepository.findManyByQuestionId(
+      questionId,
+      { page }
+    )
 
-      
-
-      return {
-        answers
-      }
-
+    return right({
+      answers
+    })
   }
 }
